@@ -1,0 +1,112 @@
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Playfair Display", Georgia, serif;
+  --font-sans: "Inter", system-ui, sans-serif;
+  --color-cinema-orange: #e85d04;
+  --color-cinema-amber: #f48c06;
+  --color-cinema-red: #c1121f;
+}
+
+body {
+  @apply font-sans text-slate-100 antialiased;
+  background: linear-gradient(180deg, #c2410c 0%, #7c2d12 18%, #1c1917 55%, #0c0a09 100%);
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+.font-cinema {
+  font-family: var(--font-serif);
+}
+
+/* Film sprocket / perforation strip */
+.film-strip-top,
+.film-strip-bottom {
+  position: relative;
+  height: 22px;
+  background: #0c0a09;
+  z-index: 20;
+}
+
+.film-strip-top::before,
+.film-strip-bottom::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    90deg,
+    #0c0a09 0px,
+    #0c0a09 8px,
+    #fbbf24 8px,
+    #fbbf24 14px,
+    #0c0a09 14px,
+    #0c0a09 28px
+  );
+  opacity: 0.85;
+}
+
+.film-strip-top::after,
+.film-strip-bottom::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, #fbbf24 20%, #fbbf24 80%, transparent);
+}
+
+.film-strip-top::after {
+  bottom: 0;
+}
+
+.film-strip-bottom::after {
+  top: 0;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-down {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@utility animate-slide-up {
+  animation: slide-up 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@utility animate-slide-down {
+  animation: slide-down 0.2s ease-in;
+}
+
+@utility animate-fade-in {
+  animation: fade-in 0.2s ease-out;
+}
