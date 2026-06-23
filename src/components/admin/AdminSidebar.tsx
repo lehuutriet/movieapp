@@ -1,5 +1,5 @@
 import type { ComponentType } from "react";
-import { Film, LayoutDashboard, MonitorPlay, Ticket, Building2, Coffee } from "lucide-react";
+import { Film, LayoutDashboard, MonitorPlay, Ticket, Building2, Coffee, Tag } from "lucide-react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/cn";
 
@@ -13,11 +13,12 @@ type SidebarItem = {
 
 const ADMIN_NAV_ITEMS: SidebarItem[] = [
   { to: "/admin", label: "Tổng quan", icon: LayoutDashboard, end: true },
-  { to: "/admin/movies", label: "Quản lý Phim", icon: Film, end: true },
-  { to: "/admin/cinemas", label: "Quản lý Rạp", icon: Building2, end: true },
-  { to: "/admin/showtimes", label: "Quản lý Suất chiếu", icon: MonitorPlay, end: true },
+  { to: "/admin/movies", label: "Phim", icon: Film, end: true },
+  { to: "/admin/cinemas", label: "Rạp", icon: Building2, end: true },
+  { to: "/admin/showtimes", label: "Suất chiếu", icon: MonitorPlay, end: true },
   { to: "/admin/concessions", label: "Đồ ăn & Thức uống", icon: Coffee, end: true },
-  { to: "/admin/tickets", label: "Vé", icon: Ticket, disabled: true },
+  { to: "/admin/promotions", label: "Khuyến mãi", icon: Tag, end: true },
+  { to: "/admin/tickets", label: "Vé", icon: Ticket, end: true },
 ];
 
 export function AdminSidebar() {

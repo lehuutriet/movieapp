@@ -6,9 +6,12 @@ import { isAppwriteConfigured } from "@/lib/appwrite";
 
 const PAGE_TITLES: Record<string, string> = {
   "/admin": "Tổng quan hệ thống",
-  "/admin/movies": "Quản lý phim",
-  "/admin/cinemas": "Quản lý rạp",
-  "/admin/showtimes": "Quản lý suất chiếu",
+  "/admin/movies": "Phim",
+  "/admin/cinemas": "Rạp",
+  "/admin/showtimes": "Suất chiếu",
+  "/admin/concessions": "Đồ ăn & Thức uống",
+  "/admin/promotions": "Khuyến mãi",
+  "/admin/tickets": "Vé",
 };
 
 export function AdminLayout() {

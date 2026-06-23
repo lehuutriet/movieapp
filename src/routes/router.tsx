@@ -1,4 +1,4 @@
-import { createHashRouter, Navigate } from "react-router-dom";
+import { createHashRouter, Navigate, useParams } from "react-router-dom";
 import { AdminGuard } from "@/components/admin/AdminGuard";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import { AdminLayout } from "@/components/admin/AdminLayout";
@@ -6,8 +6,10 @@ import { AppLayout } from "@/components/layout/AppLayout";
 import { AdminCinemasPage } from "@/pages/admin/AdminCinemasPage";
 import { AdminConcessionsPage } from "@/pages/admin/AdminConcessionsPage";
 import { AdminDashboardPage } from "@/pages/admin/AdminDashboardPage";
+import { AdminPromotionsPage } from "@/pages/admin/AdminPromotionsPage";
 import { AdminMoviesPage } from "@/pages/admin/AdminMoviesPage";
 import { AdminShowtimesPage } from "@/pages/admin/AdminShowtimesPage";
+import { AdminTicketsPage } from "@/pages/admin/AdminTicketsPage";
 import { AccountPage } from "@/pages/AccountPage";
 import { CinemasPage } from "@/pages/CinemasPage";
 import { CheckoutPage } from "@/pages/CheckoutPage";
@@ -19,6 +21,13 @@ import { SeatSelectionPage } from "@/pages/SeatSelectionPage";
 import { BookingPage } from "@/pages/BookingPage";
 import { ShowtimesPage } from "@/pages/ShowtimesPage";
 import { TicketQRPage } from "@/pages/TicketQRPage";
+import { PolicyPage } from "@/pages/PolicyPage";
+import { PromotionsPage } from "@/pages/PromotionsPage";
+
+function PolicyRoute() {
+  const { slug = "" } = useParams();
+  return <PolicyPage slug={slug} />;
+}
 
 export const router = createHashRouter([
   {
@@ -43,6 +52,8 @@ export const router = createHashRouter([
       { path: "/tickets", element: <MyTicketsPage /> },
       { path: "/account", element: <AccountPage /> },
       { path: "/login", element: <LoginPage /> },
+      { path: "/promotions", element: <PromotionsPage /> },
+      { path: "/policy/:slug", element: <PolicyRoute /> },
     ],
   },
   {
@@ -56,6 +67,8 @@ export const router = createHashRouter([
           { path: "/admin/cinemas", element: <AdminCinemasPage /> },
           { path: "/admin/showtimes", element: <AdminShowtimesPage /> },
           { path: "/admin/concessions", element: <AdminConcessionsPage /> },
+          { path: "/admin/promotions", element: <AdminPromotionsPage /> },
+          { path: "/admin/tickets", element: <AdminTicketsPage /> },
         ],
       },
     ],

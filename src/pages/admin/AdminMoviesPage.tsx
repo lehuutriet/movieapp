@@ -254,8 +254,8 @@ export function AdminMoviesPage() {
   return (
     <div>
       <AdminPageHeader
-        title="Quản lý Phim"
-        description="Thêm và quản lý danh sách phim trên hệ thống"
+        title="Phim"
+        description="Thêm và chỉnh sửa danh sách phim trên hệ thống"
         action={
           <AdminButton onClick={handleCreate}>+ Thêm Phim mới</AdminButton>
         }

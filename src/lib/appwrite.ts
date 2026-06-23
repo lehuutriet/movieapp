@@ -20,6 +20,10 @@ export const APPWRITE_CONFIG = {
       import.meta.env.VITE_APPWRITE_SHOWTIMES_COLLECTION_ID ?? "showtimes",
     concessions:
       import.meta.env.VITE_APPWRITE_CONCESSIONS_COLLECTION_ID ?? "concessions",
+    favorites:
+      import.meta.env.VITE_APPWRITE_FAVORITES_COLLECTION_ID ?? "favorites",
+    promotions:
+      import.meta.env.VITE_APPWRITE_PROMOTIONS_COLLECTION_ID ?? "promotions",
   },
 } as const;
 

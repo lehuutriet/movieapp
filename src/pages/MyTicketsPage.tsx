@@ -98,7 +98,7 @@ export function MyTicketsPage() {
           </Link>
         </div>
       ) : (
-        <ul className="mt-8 grid gap-4 sm:grid-cols-2">
+        <ul className="mt-8 space-y-4">
           {tickets.map((ticket) => (
             <li key={ticket.bookingId}>
               <button
@@ -134,10 +134,27 @@ export function MyTicketsPage() {
                   <span>Ghế {ticket.seatLabels.join(", ")}</span>
                 </div>
 
-                <p className="mt-3 text-sm font-medium text-orange-400/90">
-                  {ticket.totalAmount.toLocaleString("vi-VN")}đ
-                  <span className="ml-2 text-stone-600">→ Xem QR</span>
-                </p>
+                {ticket.concessionLines.length > 0 ? (
+                  <p className="mt-2 text-xs text-stone-500">
+                    {ticket.concessionLines
+                      .map((line) => `${line.quantity}× ${line.name}`)
+                      .join(" · ")}
+                  </p>
+                ) : null}
+
+                <div className="mt-3 text-sm">
+                  {ticket.concessionTotal > 0 ? (
+                    <p className="text-stone-500">
+                      Vé {ticket.ticketTotal.toLocaleString("vi-VN")}đ
+                      <span className="mx-1.5 text-stone-700">+</span>
+                      Đồ ăn {ticket.concessionTotal.toLocaleString("vi-VN")}đ
+                    </p>
+                  ) : null}
+                  <p className="font-medium text-orange-400/90">
+                    {ticket.grandTotal.toLocaleString("vi-VN")}đ
+                    <span className="ml-2 text-stone-600">→ Xem QR</span>
+                  </p>
+                </div>
               </button>
             </li>
           ))}

@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { MovieImage } from "@/components/movie/MovieImage";
+import { FavoriteButton } from "@/components/movie/FavoriteButton";
 import { useMovies } from "@/hooks/use-movies";
 import { getMovieThumbnailUrl } from "@/lib/movie-images";
 import { cn } from "@/lib/cn";
@@ -84,6 +85,12 @@ export function MoviePosterCard({
             Xem trailer
           </button>
         ) : null}
+
+        <FavoriteButton
+          movieId={movie.$id}
+          movieTitle={movie.title}
+          className="absolute left-2 top-2"
+        />
       </div>
     </article>
   );

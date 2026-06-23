@@ -4,9 +4,9 @@ import {
   formatShowtimeLabel,
   getScreeningStatus,
 } from "@/data/showtime-meta";
+import { listAllDocuments } from "@/lib/appwrite-list";
 import {
   APPWRITE_CONFIG,
-  getDatabases,
   isAppwriteConfigured,
   Query,
 } from "@/lib/appwrite";
@@ -58,20 +58,14 @@ export async function getUserBookings(
   }
 
   const { databaseId, collections } = APPWRITE_CONFIG;
-  const databases = getDatabases();
 
-  const response = await databases.listDocuments(
-    databaseId,
-    collections.bookings,
-    [
-      Query.equal("userId", userId),
-      Query.equal("status", "paid"),
-      Query.orderDesc("$createdAt"),
-      Query.limit(50),
-    ],
-  );
+  const documents = await listAllDocuments(databaseId, collections.bookings, [
+    Query.equal("userId", userId),
+    Query.equal("status", "paid"),
+    Query.orderDesc("$createdAt"),
+  ]);
 
-  const bookings = response.documents.map((doc) => ({
+  const bookings = documents.map((doc) => ({
     booking: mapBookingDocument(doc as Record<string, unknown>),
     raw: doc as Record<string, unknown>,
   }));
@@ -105,8 +99,7 @@ export async function getUserBookings(
       denormalized.seats.length > 0
         ? denormalized.seats
         : booking.seatLabels;
-    const totalAmount =
-      denormalized.grandTotal ?? booking.totalAmount;
+    const totalAmount = booking.grandTotal;
 
     return {
       id: booking.$id,

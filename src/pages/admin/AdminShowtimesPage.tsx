@@ -98,8 +98,8 @@ export function AdminShowtimesPage() {
   return (
     <div>
       <AdminPageHeader
-        title="Quản lý Suất chiếu"
-        description="Tạo và quản lý lịch chiếu phim tại các rạp"
+        title="Suất chiếu"
+        description="Tạo và chỉnh sửa lịch chiếu phim tại các rạp"
         action={
           <AdminButton
             onClick={() => setModalOpen(true)}

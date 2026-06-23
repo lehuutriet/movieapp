@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useUIStore } from "@/stores/ui-store";
+import { SITE_SOCIAL_LINKS } from "@/lib/site-config";
 
 function GoldenTicketLogo({ className }: { className?: string }) {
   return (
@@ -100,21 +101,21 @@ function YouTubeIcon() {
 }
 
 const SOCIAL_LINKS = [
-  { label: "Facebook", href: "https://facebook.com", icon: FacebookIcon },
-  { label: "Instagram", href: "https://instagram.com", icon: InstagramIcon },
-  { label: "Twitter", href: "https://twitter.com", icon: TwitterIcon },
-  { label: "LinkedIn", href: "https://linkedin.com", icon: LinkedInIcon },
-  { label: "YouTube", href: "https://youtube.com", icon: YouTubeIcon },
+  { label: "Facebook", href: SITE_SOCIAL_LINKS.facebook, icon: FacebookIcon },
+  { label: "Instagram", href: SITE_SOCIAL_LINKS.instagram, icon: InstagramIcon },
+  { label: "Twitter", href: SITE_SOCIAL_LINKS.twitter, icon: TwitterIcon },
+  { label: "LinkedIn", href: SITE_SOCIAL_LINKS.linkedin, icon: LinkedInIcon },
+  { label: "YouTube", href: SITE_SOCIAL_LINKS.youtube, icon: YouTubeIcon },
 ] as const;
 
 const FOOTER_COLUMNS = [
   {
     title: "Đặt vé phim",
     links: [
-      { label: "Đang chiếu", to: "/movies" },
-      { label: "Sắp chiếu", to: "/movies" },
+      { label: "Đang chiếu", to: "/movies?tab=now_showing" },
+      { label: "Sắp chiếu", to: "/movies?tab=coming_soon" },
       { label: "Đặt vé", to: "/booking" },
-      { label: "Ưu đãi & Khuyến mãi", to: "/food-drink" },
+      { label: "Ưu đãi & Khuyến mãi", to: "/promotions" },
     ],
   },
   {
@@ -123,15 +124,15 @@ const FOOTER_COLUMNS = [
       { label: "Lịch sử đặt vé", to: "/tickets" },
       { label: "Đăng nhập", action: "login" as const },
       { label: "Đăng ký", action: "register" as const },
-      { label: "Yêu thích", to: "/account" },
+      { label: "Yêu thích", to: "/account?tab=favorites" },
     ],
   },
   {
     title: "Chính sách",
     links: [
-      { label: "Điều khoản & Điều kiện", to: "#" },
-      { label: "Chính sách bảo mật", to: "#" },
-      { label: "An toàn dữ liệu", to: "#" },
+      { label: "Điều khoản & Điều kiện", to: "/policy/terms" },
+      { label: "Chính sách bảo mật", to: "/policy/privacy" },
+      { label: "An toàn dữ liệu", to: "/policy/data-safety" },
     ],
   },
 ] as const;

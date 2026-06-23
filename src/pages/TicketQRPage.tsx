@@ -122,6 +122,8 @@ export function TicketQRPage() {
   const seatsLabel = data.booking.seatLabels.join(", ");
   const qrValue = buildTicketQrPayload(bookingId);
   const backdrop = data.backdropUrl ?? data.posterUrl;
+  const { booking } = data;
+  const hasConcessions = booking.concessionLines.length > 0;
 
   return (
     <div className="mx-auto min-h-screen max-w-md px-4 py-8">
@@ -187,6 +189,35 @@ export function TicketQRPage() {
           </div>
         </div>
 
+        {hasConcessions ? (
+          <div className="border-t border-stone-800 bg-stone-900/60 px-6 py-5">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-orange-400">
+              Đồ ăn &amp; thức uống
+            </p>
+            <ul className="mt-3 space-y-2 text-sm">
+              {booking.concessionLines.map((line) => (
+                <li
+                  key={line.id}
+                  className="flex items-center justify-between gap-3 text-stone-300"
+                >
+                  <span>
+                    {line.quantity}× {line.name}
+                  </span>
+                  <span className="shrink-0 tabular-nums text-stone-400">
+                    {line.lineTotal.toLocaleString("vi-VN")}đ
+                  </span>
+                </li>
+              ))}
+            </ul>
+            <p className="mt-3 text-right text-sm text-stone-400">
+              Tổng đồ ăn:{" "}
+              <span className="font-medium text-stone-200">
+                {booking.concessionTotal.toLocaleString("vi-VN")}đ
+              </span>
+            </p>
+          </div>
+        ) : null}
+
         <div className="relative flex items-center">
           <div className="absolute -left-3 h-6 w-6 rounded-full bg-stone-950" />
           <div className="h-px flex-1 border-t border-dashed border-stone-600" />
@@ -209,9 +240,27 @@ export function TicketQRPage() {
           <p className="mt-5 font-mono text-xs text-stone-500">
             {bookingId.slice(0, 8).toUpperCase()}
           </p>
-          <p className="mt-1 text-sm text-stone-400">
-            {data.booking.totalAmount.toLocaleString("vi-VN")}đ
-          </p>
+          <div className="mt-3 space-y-1 text-sm text-stone-400">
+            {hasConcessions ? (
+              <>
+                <p>
+                  Vé:{" "}
+                  <span className="text-stone-300">
+                    {booking.totalAmount.toLocaleString("vi-VN")}đ
+                  </span>
+                </p>
+                <p>
+                  Đồ ăn:{" "}
+                  <span className="text-stone-300">
+                    {booking.concessionTotal.toLocaleString("vi-VN")}đ
+                  </span>
+                </p>
+              </>
+            ) : null}
+            <p className="text-base font-semibold text-orange-300">
+              Tổng: {booking.grandTotal.toLocaleString("vi-VN")}đ
+            </p>
+          </div>
         </div>
       </article>
 

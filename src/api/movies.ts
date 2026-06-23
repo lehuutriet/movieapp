@@ -118,8 +118,38 @@ export async function fetchFeaturedMovie(): Promise<Movie | null> {
   return null;
 }
 
+export async function fetchMoviesByIds(ids: string[]): Promise<Movie[]> {
+  if (!ids.length) {
+    return [];
+  }
+
+  if (!isAppwriteConfigured()) {
+    throw new Error("Appwrite is not configured.");
+  }
+
+  const { databaseId, collections } = APPWRITE_CONFIG;
+  const databases = getDatabases();
+
+  const response = await databases.listDocuments(databaseId, collections.movies, [
+    Query.equal("$id", ids),
+    Query.limit(ids.length),
+  ]);
+
+  const byId = new Map(
+    response.documents.map((doc) => {
+      const movie = mapMovieDocument(doc as Record<string, unknown>);
+      return [movie.$id, movie] as const;
+    }),
+  );
+
+  return ids
+    .map((id) => byId.get(id))
+    .filter((movie): movie is Movie => movie !== undefined);
+}
+
 export const movieQueryKeys = {
   list: (status: MovieStatus) => ["movies", status] as const,
   featured: () => ["movies", "featured"] as const,
   featuredList: (limit: number) => ["movies", "featured-list", limit] as const,
+  byIds: (ids: string[]) => ["movies", "by-ids", ...ids] as const,
 };

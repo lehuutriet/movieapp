@@ -23,8 +23,16 @@ export interface BookingDocument {
   subtotal: number;
   discount: number;
   totalAmount: number;
+  promoCode?: string | null;
   status: BookingStatus;
   expiresAt: string;
+  concessionLines: BookingConcessionLine[];
+  concessionSubtotal: number;
+  concessionDiscount: number;
+  concessionTotal: number;
+  grandTotal: number;
+  comboPromoCode?: string | null;
+  paymentMethod?: PaymentMethod | null;
 }
 
 export interface BookingCheckoutView {
@@ -49,3 +57,20 @@ export interface CreateBookingResult {
 }
 
 export type PaymentMethod = "atm" | "momo" | "cash";
+
+/** Snapshot of one F&B line saved on a paid booking. */
+export interface BookingConcessionLine {
+  id: string;
+  name: string;
+  quantity: number;
+  unitPrice: number;
+  lineTotal: number;
+}
+
+export interface BookingConcessionSnapshot {
+  lines: BookingConcessionLine[];
+  subtotal: number;
+  discount: number;
+  total: number;
+  comboPromoCode?: string | null;
+}

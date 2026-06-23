@@ -5,6 +5,7 @@ import {
   formatShowtimeLabel,
   getScreeningStatus,
 } from "@/data/showtime-meta";
+import { listAllDocuments } from "@/lib/appwrite-list";
 import {
   APPWRITE_CONFIG,
   getDatabases,
@@ -30,7 +31,10 @@ export interface TicketListItem {
   showtimeLabel: string;
   startTime: string;
   seatLabels: string[];
-  totalAmount: number;
+  ticketTotal: number;
+  concessionTotal: number;
+  grandTotal: number;
+  concessionLines: BookingDocument["concessionLines"];
   screeningStatus: "upcoming" | "past";
 }
 
@@ -76,20 +80,14 @@ export async function fetchMyPaidBookings(
   }
 
   const { databaseId, collections } = APPWRITE_CONFIG;
-  const databases = getDatabases();
 
-  const response = await databases.listDocuments(
-    databaseId,
-    collections.bookings,
-    [
-      Query.equal("userId", userId),
-      Query.equal("status", "paid"),
-      Query.orderDesc("$createdAt"),
-      Query.limit(50),
-    ],
-  );
+  const documents = await listAllDocuments(databaseId, collections.bookings, [
+    Query.equal("userId", userId),
+    Query.equal("status", "paid"),
+    Query.orderDesc("$createdAt"),
+  ]);
 
-  const bookings = response.documents.map((doc) =>
+  const bookings = documents.map((doc) =>
     mapBookingDocument(doc as Record<string, unknown>),
   );
 
@@ -112,7 +110,10 @@ export async function fetchMyPaidBookings(
       showtimeLabel: formatShowtimeLabel(meta.startTime),
       startTime: meta.startTime,
       seatLabels: booking.seatLabels,
-      totalAmount: booking.totalAmount,
+      ticketTotal: booking.totalAmount,
+      concessionTotal: booking.concessionTotal,
+      grandTotal: booking.grandTotal,
+      concessionLines: booking.concessionLines,
       screeningStatus: getScreeningStatus(meta.startTime),
     };
   });

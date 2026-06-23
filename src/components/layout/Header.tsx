@@ -11,7 +11,15 @@ const NAV_LINKS = [
   { to: "/movies", label: "Phim", end: true },
   { to: "/showtimes", label: "Lịch chiếu", end: true },
   { to: "/food-drink", label: "Đồ ăn & Thức uống", end: true },
+  { to: "/promotions", label: "Khuyến mãi", end: true },
 ] as const;
+
+function navLinkClass(isActive: boolean) {
+  return cn(
+    "text-sm font-medium transition-colors",
+    isActive ? "text-orange-400" : "text-stone-300 hover:text-orange-400",
+  );
+}
 
 function TicketIcon() {
   return (
@@ -71,14 +79,7 @@ export function Header() {
               key={link.to}
               to={link.to}
               end={link.end}
-              className={({ isActive }) =>
-                cn(
-                  "text-sm font-medium transition-colors",
-                  isActive
-                    ? "text-orange-400"
-                    : "text-stone-300 hover:text-orange-400",
-                )
-              }
+              className={({ isActive }) => navLinkClass(isActive)}
             >
               {link.label}
             </NavLink>

@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import {
   AccountSidebar,
   type AccountTab,
 } from "@/components/account/AccountSidebar";
 import { LogoutConfirmModal } from "@/components/auth/LogoutConfirmModal";
+import { FavoritesTab } from "@/components/account/FavoritesTab";
 import { ProfileTab } from "@/components/account/ProfileTab";
 import { SettingsTab } from "@/components/account/SettingsTab";
 import { TicketHistoryTab } from "@/components/account/TicketHistoryTab";
@@ -45,11 +47,24 @@ function AccountGuestPrompt() {
   );
 }
 
+function isAccountTab(value: string | null): value is AccountTab {
+  return (
+    value === "profile" ||
+    value === "tickets" ||
+    value === "favorites" ||
+    value === "settings"
+  );
+}
+
 export function AccountPage() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const tabFromUrl = searchParams.get("tab");
   const user = useAuthStore((state) => state.user);
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const isLoading = useAuthStore((state) => state.isLoading);
-  const [activeTab, setActiveTab] = useState<AccountTab>("profile");
+  const [activeTab, setActiveTab] = useState<AccountTab>(
+    isAccountTab(tabFromUrl) ? tabFromUrl : "profile",
+  );
   const {
     isLogoutModalOpen,
     isLoggingOut,
@@ -57,6 +72,17 @@ export function AccountPage() {
     closeLogoutModal,
     handleLogout,
   } = useSecureLogout();
+
+  useEffect(() => {
+    if (isAccountTab(tabFromUrl)) {
+      setActiveTab(tabFromUrl);
+    }
+  }, [tabFromUrl]);
+
+  const handleTabChange = (tab: AccountTab) => {
+    setActiveTab(tab);
+    setSearchParams({ tab });
+  };
 
   if (isLoading) {
     return <AccountSkeleton />;
@@ -71,7 +97,7 @@ export function AccountPage() {
       <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
         <AccountSidebar
           activeTab={activeTab}
-          onTabChange={setActiveTab}
+          onTabChange={handleTabChange}
           onLogout={openLogoutModal}
           userName={user.name}
           userEmail={user.email}
@@ -80,6 +106,7 @@ export function AccountPage() {
         <main className="min-w-0 flex-1 rounded-2xl border border-zinc-800 bg-zinc-950/50 p-6 md:p-8">
           {activeTab === "profile" && <ProfileTab user={user} />}
           {activeTab === "tickets" && <TicketHistoryTab />}
+          {activeTab === "favorites" && <FavoritesTab />}
           {activeTab === "settings" && <SettingsTab />}
         </main>
       </div>

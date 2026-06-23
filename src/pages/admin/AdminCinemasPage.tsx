@@ -215,7 +215,7 @@ export function AdminCinemasPage() {
   return (
     <div>
       <AdminPageHeader
-        title="Quản lý Rạp"
+        title="Rạp"
         description="Thêm và chỉnh sửa thông tin cụm rạp"
         action={<AdminButton onClick={openCreate}>+ Thêm Rạp</AdminButton>}
       />

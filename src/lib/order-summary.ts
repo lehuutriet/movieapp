@@ -9,18 +9,25 @@ export interface OrderSummaryTotals {
   /** Ticket amount after discount (`booking.totalAmount`). */
   ticketTotal: number;
   concessionSubtotal: number;
+  concessionDiscount: number;
+  concessionTotal: number;
   grandTotal: number;
 }
 
 export function computeOrderTotals(
   booking: { subtotal: number; discount: number; totalAmount: number },
   concessionSubtotal: number,
+  concessionDiscount = 0,
 ): OrderSummaryTotals {
+  const concessionTotal = Math.max(0, concessionSubtotal - concessionDiscount);
+
   return {
     ticketSubtotal: booking.subtotal,
     ticketDiscount: booking.discount,
     ticketTotal: booking.totalAmount,
     concessionSubtotal,
-    grandTotal: booking.totalAmount + concessionSubtotal,
+    concessionDiscount,
+    concessionTotal,
+    grandTotal: booking.totalAmount + concessionTotal,
   };
 }

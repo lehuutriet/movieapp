@@ -37,7 +37,7 @@ export function HeroBanner({ movie, className, onTrailerClick }: HeroBannerProps
         <h1 className="font-cinema mt-3 max-w-2xl text-3xl font-bold leading-tight text-white md:text-5xl">
           {movie.title}
         </h1>
-        <p className="mt-4 line-clamp-2 max-w-xl text-sm text-gray-300 md:text-base">
+        <p className="mt-4 max-w-xl text-sm leading-relaxed text-gray-300 md:text-base">
           {movie.synopsis}
         </p>
 

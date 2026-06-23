@@ -12,7 +12,6 @@ export interface BookingStatsDocument extends BookingDocument {
   $createdAt: string;
   movieTitle?: string;
   cinemaName?: string;
-  grandTotal?: number;
   seats?: string[];
 }
 
@@ -58,10 +57,6 @@ async function listAllPaidBookings(): Promise<BookingStatsDocument[]> {
       $createdAt: String(raw.$createdAt ?? ""),
       movieTitle: raw.movieTitle ? String(raw.movieTitle) : undefined,
       cinemaName: raw.cinemaName ? String(raw.cinemaName) : undefined,
-      grandTotal:
-        raw.grandTotal != null
-          ? Number(raw.grandTotal)
-          : undefined,
       seats: Array.isArray(raw.seats) ? (raw.seats as string[]) : undefined,
     };
   });

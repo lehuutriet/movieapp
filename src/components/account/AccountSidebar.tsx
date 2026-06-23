@@ -1,8 +1,8 @@
 import type { ComponentType } from "react";
-import { LogOut, Settings, Ticket, User } from "lucide-react";
+import { LogOut, Heart, Settings, Ticket, User } from "lucide-react";
 import { cn } from "@/lib/cn";
 
-export type AccountTab = "profile" | "tickets" | "settings";
+export type AccountTab = "profile" | "tickets" | "favorites" | "settings";
 
 type SidebarItem = {
   id: AccountTab;
@@ -13,6 +13,7 @@ type SidebarItem = {
 const NAV_ITEMS: SidebarItem[] = [
   { id: "profile", label: "Thông tin cá nhân", icon: User },
   { id: "tickets", label: "Lịch sử đặt vé", icon: Ticket },
+  { id: "favorites", label: "Yêu thích", icon: Heart },
   { id: "settings", label: "Cài đặt", icon: Settings },
 ];
 

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import * as Tabs from "@radix-ui/react-tabs";
 import { HeroSlider } from "@/components/movie/HeroSlider";
 import { MovieGrid } from "@/components/movie/MoviePosterCard";
@@ -67,7 +67,7 @@ export function HomePage() {
 
       <section className="border-y border-orange-900/20 bg-stone-950/60">
         <div className="mx-auto max-w-6xl px-4 py-10 md:px-6 md:py-14">
-          <SectionHeader eyebrow="Phim" title="Sắp chiếu" seeAllTo="/movies" />
+          <SectionHeader eyebrow="Phim" title="Sắp chiếu" seeAllTo="/movies?tab=coming_soon" />
           <MovieGrid status="coming_soon" onTrailerClick={openTrailer} limit={10} />
         </div>
       </section>
@@ -105,12 +105,19 @@ export function HomePage() {
 }
 
 export function MoviesPage() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const activeTab =
+    searchParams.get("tab") === "coming_soon" ? "coming_soon" : "now_showing";
   const [isTrailerOpen, setIsTrailerOpen] = useState(false);
   const [currentTrailerUrl, setCurrentTrailerUrl] = useState("");
 
   const openTrailer = (trailerUrl: string) => {
     setCurrentTrailerUrl(trailerUrl);
     setIsTrailerOpen(true);
+  };
+
+  const handleTabChange = (value: string) => {
+    setSearchParams({ tab: value });
   };
 
   return (
@@ -128,7 +135,7 @@ export function MoviesPage() {
       </section>
 
       <main className="mx-auto max-w-6xl px-4 py-10 md:px-6">
-        <Tabs.Root defaultValue="now_showing" className="w-full">
+        <Tabs.Root value={activeTab} onValueChange={handleTabChange} className="w-full">
           <Tabs.List className="mb-8 inline-flex rounded-full border border-orange-900/40 bg-black/40 p-1">
             <Tabs.Trigger
               value="now_showing"

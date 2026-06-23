@@ -63,8 +63,6 @@ export function SeatMap({
       ),
     [seatStatus],
   );
-  console.log("Sold Seats from API:", soldSeatLabels);
-
   const statusCounts = useMemo(() => {
     const counts: Record<SeatUIStatus, number> = {
       available: 0,
